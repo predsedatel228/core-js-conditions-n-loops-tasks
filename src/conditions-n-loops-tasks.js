@@ -112,8 +112,24 @@ function isIsoscelesTriangle(/* a, b, c */) {
  *  10  => X
  *  26  => XXVI
  */
-function convertToRomanNumerals(/* num */) {
-  throw new Error('Not implemented');
+function convertToRomanNumerals(num) {
+  let answer = '';
+  for (let i = 1; i <= Math.floor(num / 10); i += 1) {
+    answer += 'X';
+  }
+  for (let i = 1; i <= Math.floor((num % 10) / 9); i += 1) {
+    answer += 'IX';
+  }
+  for (let i = 1; i <= ((num % 10) % 9) / 5; i += 1) {
+    answer += 'V';
+  }
+  for (let i = 1; i <= (((num % 10) % 9) % 5) / 4; i += 1) {
+    answer += 'IV';
+  }
+  for (let i = 0; i < (((num % 10) % 9) % 5) % 4; i += 1) {
+    answer += 'I';
+  }
+  return answer;
 }
 
 /**
@@ -244,8 +260,20 @@ function getIndexOf(str, letter) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  let n;
+  let s = num;
+  let t = 1;
+  let answer = false;
+  while (s > 0 && answer !== true) {
+    n = s % 10;
+    s = Math.floor(num / 10 ** t);
+    t += 1;
+    if (n === digit) {
+      answer = true;
+    }
+  }
+  return answer;
 }
 
 /**
