@@ -486,18 +486,38 @@ function shuffleChar(str, iterations) {
  *
  * @example:
  * 12345    => 12354
- * 123450   => 123504
- * 12344    => 12434
- * 123440   => 124034
- * 1203450  => 1203504
- * 90822    => 92028
- * 321321   => 322113
+ * 123450   => 123504  5 0,4
+ * 12344    => 12434   4 34
+ * 123440   => 124034  4 034
+ * 1203450  => 1203504  5 40 - 04
+ * 90822    => 92028   2  0822 - 028
+ * 321321   => 322113  1  1>2? - 21, 2>3? - 321, 3>1 + =>  ищем минимальное больше 1 => 2 311 => 113   2113
  *
  * @param {number} number The source number
  * @returns {number} The nearest larger number, or original number if none exists.
  */
-function getNearestBigger(/* number */) {
-  throw new Error('Not implemented');
+function getNearestBigger(number) {
+  const digits = Array.from(String(number), Number);
+  let answer;
+  let tail;
+  for (let i = digits.length - 1; i >= 0; i -= 1) {
+    if (digits[i] > digits[i - 1]) {
+      let b;
+      tail = digits.splice(i, digits.length).sort((a, z) => a - z);
+      const edgeNum = digits.splice(-1);
+      for (let t = 0; t < tail.length; t += 1) {
+        if (tail[t] > edgeNum) {
+          b = tail.splice(t, 1);
+          break;
+        }
+      }
+      tail.unshift(edgeNum[0]);
+      tail.sort((a, z) => a - z);
+      answer = +[...digits, ...b, ...tail].join('');
+      return answer;
+    }
+  }
+  return false;
 }
 
 module.exports = {
